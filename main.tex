@@ -56,9 +56,9 @@
 	%english,			% idioma adicional para hifenização
 	french,				% idioma adicional para hifenização
 	spanish,			% idioma adicional para hifenização
-%	brazil,				% o último idioma é o principal do documento
+	brazil,				% o último idioma é o principal do documento
 	english,
-	brazil,
+	%brazil,
 	]{abntex2/abntex2}
 	\renewcommand{\baselinestretch}{1.5} %para customizar o espaço entre as linhas do texto
 % --
@@ -221,7 +221,7 @@
 % LISTA DE CÓDIGOS FONTES
 % ---
 
-\pdfbookmark[0]{\lstlistingname}{lol} % caso não tenha quadros, comente esta linha 
+%\pdfbookmark[0]{\lstlistingname}{lol} % caso não tenha quadros, comente esta linha 
 \counterwithout{lstlisting}{chapter}
 
 
@@ -249,7 +249,7 @@
 \renewcommand{\numberline}{\algnumberline}
 
 \begin{KeepFromToc}
-\lstlistoflistings
+%\lstlistoflistings
 \end{KeepFromToc}
 }
 \cleardoublepage
@@ -258,7 +258,7 @@
 % LISTA DE QUADROS
 % ---
 \pdfbookmark[0]{\listofquadrosname}{loq} % caso não tenha quadros, comente esta linha 
-\listofquadros* % caso não tenha quadros, comente esta linha 
+%\listofquadros* % caso não tenha quadros, comente esta linha 
 \cleardoublepage
 
 
@@ -294,7 +294,7 @@
 % ----------------------------------------------------------
 % LISTA DE SIMBOLOS
 % ----------------------------------------------------------
-\input{others/list_simbol}
+%\input{others/list_simbol}
 
 % ----------------------------------------------------------
 %\input{others/list_simbol}
@@ -337,22 +337,22 @@
 % ----------------------------------------------------------
 % Referências bibliográficas
 % ----------------------------------------------------------
-%\bibliographystyle{abntexalfenglish} %caso seja em inglês, retire o comentário desta linha
+\bibliographystyle{abntexalfenglish} %caso seja em inglês, retire o comentário desta linha
 
 % \renewcommand{\bibname}{REFER\^ENCIAS}
 %\renewcommand{\bibname}{Bibliography}
 % \addbibresource{sample.bib}
-\bibliography{references2}
+\bibliography{references_mendley}
 
 
 % ----------------------------------------------------------
 % Apêndices
 % ----------------------------------------------------------
-\include{appendix}
+%\include{appendix}
 % ----------------------------------------------------------
 % Anexos
 % ----------------------------------------------------------
-\include{anexos}
+%\include{anexos}
 
 \printindex
 
