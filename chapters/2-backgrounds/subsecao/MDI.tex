@@ -1,6 +1,6 @@
 \subsubsection{MDI}
 
-MDI is a metric specifically designed for assessing feature importance in tree-based models like Random Forests and Gradient Boosting Trees. As PFI, MDI is a loss-based metric and measures the average reduction in impurity—typically Gini impurity, entropy, or mean squared error—that a feature brings about when used for splitting in the decision trees that constitute the model.
+The Mean Decrease in Impurity (MDI) is a metric specifically designed for assessing feature importance in tree-based models like Random Forests and Gradient Boosting Trees. As \gls{PFI}, \gls{MDI} is a loss-based metric and measures the average reduction in impurity—typically Gini impurity, entropy, or mean squared error—that a feature brings about when used for splitting in the decision trees that constitute the model.
 
 For a given feature \( x_i \), its \( \text{MDI}(x_i) \) is defined as:
 
@@ -18,5 +18,5 @@ The impurity reduction \( \Delta I(t, x_i) \) for a specific tree \( t \) and fe
 
 where \( \text{Nodes}(t, x_i) \) is the set of nodes that use \( x_i \) for splitting in tree \( t \), \( w_n \) is the proportion of samples reaching node \( n \), and \( \Delta I_n \) is the impurity reduction achieved by the split at node \( n \).
 
-As in PFI, the MDI values are often normalized and sorted to provide a ranking of feature importances.
+As in \gls{PFI}, the \gls{MDI} values are often normalized and sorted to provide a ranking of feature importances.
 
