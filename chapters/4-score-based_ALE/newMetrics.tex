@@ -34,7 +34,8 @@ The ALE function is defined as a summation of local effects ascertained by the p
 
 Therefore, for a more reliable interpretation of the scores, the quantiles (as defined by $j$ in Algorithm \ref{algorithm:cap3}, line 2) should be representative of the sample. This representation should be meaningful within the domain context to reveal its summarized feature effects, while assuming linear feature effects within each quantile. In the domain of education, deciles and quantiles are common units of interest \cite{Carnoy2022TrendsBrazil, Carnoy2017IntranationalBrazil}
 
-Lastly, to account for the uncertainty inherent in the model and data, the metrics can be calculated using a cross-validation approach or a bootstrap sampling strategy. While Bootstrap allows for the construction of confidence intervals by the cost of high computational cost, cross-validation can produce generalized estimates with low computational effort. The ALE computation is relatively stable in absence of outliers, as the definition of quantiles tends to remain consistent. This stability is especially notable when the unique values of a feature are few or closely to the \(J\) definition. The greatest source of uncertainty typically lies within the model itself, as an algorithm may approximate different functions while delivering comparably effective performance.
+Lastly, to account for the uncertainty inherent in the model and data, the metrics can be calculated using a cross-validation approach or a bootstrap sampling strategy. While Bootstrap allows for the construction of confidence intervals by the cost of high computational cost, cross-validation can produce generalized estimates with low computational effort. The \gls{ALE} computation is relatively stable in absence of outliers, as the definition of quantiles tends to remain consistent. This stability is especially notable when the unique values of a feature are few or closely to the \(J\) definition. The greatest source of uncertainty typically lies within the model itself, as an algorithm may approximate different functions while delivering comparably effective performance. If outliers are present, appropriate handling would involve winsorizing the data distribution's tails or adjusting the quantile estimation method to minimize the influence of extreme values on predictions
+
 
 In Line 9, in Algorithm \ref{algorithm:cap3}, the process for summarizing the influence of a feature on model predictions is defined. Within this context, three metrics are first introduced, calibrated to the same scale as the model's output, offering insights into both the magnitude and direction of the feature's effect size. For clarity, these metrics are didactically compared to the traditional coefficients of linear models. Subsequently, a fourth metric, based on a ranking system, is introduced.
 
@@ -46,7 +47,7 @@ Consider:
 \( {z_2}_{j(k)} \) is the upper bound of the \( k \)-th quantile for feature \( j \).
 \( n \) is a specific value of interest of \( j \) 
 
-\textbf{1) \gls{MUA}}: The \gls{MUA} metric urges actionability and extracts the maximum change in the predictions (\(y\)) that a feature of interest may derive. The maximum is related to a specific data interval and may be positive or negative, requiring a previous absolute comparison to achieve the highest value.
+\textbf{1) \gls{MUA}}: the \gls{MUA} metric urges actionability and extracts the maximum change in the predictions (\(y\)) that a feature of interest may derive. The maximum is related to a specific data interval and may be positive or negative, requiring a previous absolute comparison to achieve the highest value.
 
 
 \begin{equation}
@@ -55,17 +56,15 @@ Consider:
 \end{equation}
 
 
-\textbf{2) \gls{UAS}}
-The \gls{UAS} is an arbitrary choice of a specific value \(n\) of the feature of interest. In practice, it requires discovering into which quantile this value falls and returns the accumulated uncentered ALE up this quantile. This metric may be helpful when the analyst has sufficient domain knowledge or is verifying hypotheses.
+\textbf{2) \gls{UAS}}:
+the \gls{UAS} is an arbitrary choice of a specific value \(n\) of the feature of interest. In practice, it requires discovering into which quantile this value falls and returns the accumulated uncentered ALE up this quantile. This metric may be helpful when the analyst has sufficient domain knowledge or is verifying hypotheses.
 
 \begin{equation}
 \label{eq:UAS}
 \text{UAS}(j, n) = ALE_{j(k)} \, | \, {z_1}_{j(k)} \leq n \leq {z_2}_{j(k)}
 \end{equation}
 
-\textbf{3) \gls{AUA}}
-
-The \gls{AUA} represents the first-order moment of the distribution and offers insights into the general magnitude and direction of feature effects across specified intervals. The \gls{AUA} captures the average isolated impact of a feature of interest on the predictions over these intervals. A lower \gls{AUA} value does not necessarily indicate an insignificant variable; rather, it may reflect a variable with a lower average effects. 
+\textbf{3) \gls{AUA}}: the \gls{AUA} represents the first-order moment of the distribution and offers insights into the general magnitude and direction of feature effects across specified intervals. The \gls{AUA} captures the average isolated impact of a feature of interest on the predictions over these intervals. A lower \gls{AUA} value does not necessarily indicate an insignificant variable; rather, it may reflect a variable with a lower average effects. 
 
 \begin{equation}
 \label{eq:AUA}
@@ -84,24 +83,24 @@ In linear regression, the coefficients of a variable quantify its overall effect
 \text{Y} = \beta_0 + \beta_1 A + \beta_2 (A \times D_3) + \epsilon
 \end{equation}
 
-Here, \(\beta_1\) represents the baseline effect of variable \(A\), while \(\beta_2\) (the coefficient of the interaction term \(A \times D_3\)) captures the additional effect of \(A\) in the third quartile regarding the remains. In the case of a monotonically increasing effect of \(A\), the sum \(\beta_1 + \beta_2\) aligns with the \gls{MUA}. Conversely, if \(A\)'s effect is monotonically decreasing, the \gls{MUA} corresponds to \(\beta_1\) added to the coefficient of the first quartile's interaction term, which is not included in Equation \ref{eq:lm+inter+analogy}.
+Here, \(\beta_1\) represents the baseline effect of variable \(A\), while \(\beta_2\) (the coefficient of the interaction term \(A \times D_3\)) captures the additional effect of \(A\) in the third quartile regarding the remains. In the case of a monotonically increasing effect of \(A\) on \(Y\), the sum \(\beta_1 + \beta_2\) aligns with the \gls{MUA}. Conversely, if \(A\)'s effect is monotonically decreasing, the \gls{MUA} corresponds to \(\beta_1\) added to the coefficient of the first quartile's interaction term, which is not included in Equation \ref{eq:lm+inter+analogy}.
 
 \gls{MUA} thus represents the maximal average effect of variable \(A\) across its quartiles. As the metrics is an uncentered version of \gls{ALE} framework, the average effect of variables will always be included, which makes them more informative to the actual dataset. This is particularly important as the function is unknown and the interpretation relies only on a unique number. The \gls{AUA} represents the mean of all such summations between \(\beta_1\) and the coefficients of the interaction terms for each quartile. Meanwhile, the \gls{AUS} informs the same \(\beta_1\) added to the interaction term of the quartile that encompasses a chosen specific value. 
 
-\textbf{\gls{AAR}}: The \gls{AAR} is a non-directional metric, distinguishing it from those previously mentioned. It quantifies the feature contribution by measuring the total absolute range from the minimum to the maximum effect. The \gls{AAR} can be scaled from 0 to 1, providing a ranking-based alternative. This scaling enhances generalizability, facilitating broader comparisons of a specific feature's \gls{AAR} across various datasets and models. A lower range indicates less reliance on the feature by the model.
+\textbf{\gls{AAR}}: the \gls{AAR} is a non-directional metric, distinguishing it from those previously mentioned. It quantifies the feature contribution by measuring the total absolute range from the minimum to the maximum effect. The \gls{AAR} can be scaled from 0 to 1, providing a ranking-based alternative. This scaling enhances generalizability, facilitating broader comparisons of a specific feature's \gls{AAR} across various datasets and models. A lower range indicates less reliance on the feature by the model.
 
 \begin{equation}
 \label{eq:AAR}
 \text{AAR}(j) = \left| \max_{k} ALE_{j(k)} - \min_{k} ALE_{j(k)} \right|
 \end{equation}
 
-\subsection{Building Confidence Intervals}
+\subsection{Building confidence intervals}
 
 Confidence intervals are crucial for inference and analyzing the reliability of estimates. They provide an estimate of the range within which the true metric values are likely to fall, given a specified confidence level. To construct these intervals in the context of \gls{ALE}-based metrics, strategies such as data-only bootstrap or full-bootstrap can be used. The data-only bootstrap accounts solely for data uncertainty, whereas the full-bootstrap method considers uncertainties arising from both data and the model training. This method involves repeatedly resampling the dataset (and retraining the \gls{ML} model for the full bootstrap), designated for explanation, with replacement and recalculating the metrics for each sample, thereby capturing data estimates variability.
 
 Nevertheles, bootstrap sampling can be computationally demanding, particularly for large datasets or complex models. As an efficient alternative to capture robust estimates, k-fold cross-validation can be employed, though it does not inherently provide confidence intervals. In this method, the entire dataset is utilized for both training and explaining the model. The data is divided into \('k'\) subsets. The model is trained \('k'\) times, using a different fold as the explanation set each time, while the remaining data is used for training. This ensures that every data point contributes to both training and feature explanations.
 
-Figures \ref{fig:bootstrap_full} and \ref{fig:bootstrap_no_full}illustrate the use of both data-only and full-bootstrapping strategies for all metrics, including their confidence intervals at a 5\% significance level. The \gls{AUS} was defined using the median for each feature. The \gls{AAR} was not normalized. These metrics are derived from predictions of house prices using the openly available California Housing dataset\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html}} , employing the random forest regression algorithm with its default parameters as implemented in scikit-learn\footnote{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html}. Prior to modeling, data preprocessing was conducted to manage outliers, setting bounds at the 97.5\textsuperscript{th} and 2.5\textsuperscript{th} percentiles to mitigate the impact of extreme values. 
+Figures \ref{fig:bootstrap_full} and \ref{fig:bootstrap_no_full}illustrate the use of both data-only and full-bootstrapping strategies for all metrics, including their confidence intervals at a 5\% significance level. The \gls{AUS} was defined using the median for each feature. The \gls{AAR} was not normalized. These metrics are derived from predictions of house prices using the openly available California Housing dataset\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html}} , employing the random forest regression algorithm with its default parameters as implemented in scikit-learn\footnote{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html}. Prior to modeling, data preprocessing was conducted to manage outliers, setting bounds at the 97.5\textsuperscript{th} and 2.5\textsuperscript{th} percentiles to mitigate the impact of extreme values. This dataset was chosen for demonstrating uncertainty computation because it is open, simple, and extensively used in the \gls{ML}literature, which can facilitate future comparisons
 
 
 \begin{figure}[ht!]

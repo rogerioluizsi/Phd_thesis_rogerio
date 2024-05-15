@@ -1,20 +1,20 @@
-\subsubsection{ME Plots and Scores}
+\subsubsection{ME plots and scores}
 
-The Marginal Effects (ME), or analytical derivative, were initially defined in the traditional statistical literature. The marginal term here is derived from the econometrics discipline as the "additional" effect, which has a  different mean from the rest of this thesis, where the marginal term is related to the probability distribution of an underlying feature.
+The Marginal Effects (\gls{ME}), or analytical derivative, were initially defined in the traditional statistical literature. The marginal term here is derived from the econometrics discipline as the "additional" effect, which has a  different mean from the rest of this thesis, where the marginal term is related to the probability distribution of an underlying feature.
 
 The \gls{ME} were established as an alternative to explain the coefficients of features in non-linear models, especially those entailing interactions that obscure the direct interpretation of coefficients. These more complex models lose their direct interpretation of coefficients, meaning that interpretation requires a first understanding of the details of the specified model\cite{Leeper2021InterpretingMargins, long1997regression}. The \gls{ME} are also useful to inform the variable contribution in the natural scale on Generalized Linear Models (GLM), which involve transformations of the linear predictor into other discrete outcomes, such as logistic regressions, where coefficients typically lack direct interpretability and do not align with the scale of interest.
 
-The \gls{ME} effects of a variable $x_s$ are in the function of all other remaining variables $X_c$ and represent  for continuous variables the change in the probability when the $x_s$ varies in small change, as defined:
+The \gls{ME} effects of a variable $X_s$ are in the function of all other remaining variables $X_c$ and represent  for continuous variables the change in the probability when the $X_s$ varies in small change, as defined:
 
 \begin{equation}
-ME(X_s) = \lim_{{h \to 0}} \frac{{f(X_c|(x_s + h)) - f(X_c|x_s)}}{h}
+ME(X_s) = \lim_{{h \to 0}} \frac{{f(X_c|(X_s + h)) - f(X_c|X_s)}}{h}
 \label{me}
 \end{equation}
 
-In practice, $h$ is the value of $x_s$ and the ME effects can be straightforwardly plotted over $x_s$ . However, usually, summary measures are the main unit of interest, such as:
+In practice, $h$ is the value of $X_s$ and the \gls{ME} effects can be straightforwardly plotted over $X_s$ . However, usually, summary measures are the main unit of interest, such as:
 
 \begin{itemize}
-    \item Marginal Effect at the Mean (MEM) is simply the computation of the MEs around the mean of the feature distribution. In practice, MEM is close to the AME if \(f(X)\) is not too noisy.
+    \item Marginal Effect at the Mean (MEM) is simply the computation of the \gls{ME}s around the mean of the feature distribution. In practice, MEM is close to the AME if \(f(X)\) is not too noisy.
 \end{itemize}
 
 \begin{itemize}

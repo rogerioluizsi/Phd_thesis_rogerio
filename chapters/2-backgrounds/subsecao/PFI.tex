@@ -1,14 +1,14 @@
 \subsubsection{PFI scores}
 
-The Permutation Feature Importance (PFI) is a model-agnostic metric used to evaluate the contribution of each feature to the predictive power of a trained \gls{ML} model, \(\hat{f}\). Given a feature matrix \(X\) and a target vector \(y\), the \gls{PFI} for a particular feature is calculated by measuring the increase in a specified error measure \(L(y, \hat{f})\) when the values of that feature are randomly permuted.
+The Permutation Feature Importance (\gls{PFI}) is a model-agnostic metric used to evaluate the contribution of each feature to the predictive power of a trained \gls{ML} model, \(f\). Given a feature matrix \(X\) and a target vector \(Y\), the \gls{PFI} for a particular feature is calculated by measuring the increase in a specified error measure \(L(Y, f)\) when the values of that feature are randomly permuted.
 
-Let \(\hat{f}: X \rightarrow Y\) be the trained model, where \(X \in \mathbb{R}^{n \times p}\) is the feature matrix with \(n\) samples and \(p\) features, and \(Y\) is the target space. The error measure \(L(y, \hat{f})\) quantifies the discrepancy between the predicted and true target values. The \gls{PFI} of a given feature \(x_i\) is defined as follows:
+Let \(f: X \rightarrow Y\) be the trained model, where \(X \in \mathbb{R}^{n \times p}\) is the feature matrix with \(n\) samples and \(p\) features, and \(Y\) is the target space. The error measure \(L(Y, f)\) quantifies the discrepancy between the predicted and true target values. The \gls{PFI} of a given feature \(x_i\) is defined as follows:
 
 \begin{equation}
-\text{PFI}(x_i) = E\left[ L(y, \hat{f}(X)) - L\left(y, \hat{f}(X_{\text{-}i, \text{perm}})\right) \right]
+\text{PFI}(x_i) = E\left[ L(Y, f(X)) - L\left(Y, f(x_{\text{-}i, \text{perm}})\right) \right]
 \end{equation}
 
-Here, \(X_{\text{-}i, \text{perm}}\) denotes the feature matrix \(X\) where the \(i\)-th feature column has been permuted randomly. The expectation \(E[\cdot]\) is taken over multiple permutations to obtain a stable estimate.
+Here, \(x_{\text{-}i, \text{perm}}\) denotes the feature matrix \(X\) where the \(i\)-th feature column has been permuted randomly. The expectation \(E[\cdot]\) is taken over multiple permutations to obtain a stable estimate.
 
 A higher \gls{PFI} value for a feature indicates a greater contribution to the model's predictive capability. Conversely, a low or negative \gls{PFI} suggests that the feature may be irrelevant or even detrimental to the model's performance. Usually, the \gls{PFI} values are normalized to be ranked. Typically, \gls{PFI} values are normalized and sorted such that they sum to one, to facilitate comparative ranking among the features. 
 

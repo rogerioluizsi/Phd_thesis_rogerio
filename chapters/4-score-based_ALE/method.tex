@@ -3,7 +3,7 @@
 
 This section details the methodology employed to assess the efficacy of the proposed metrics in addressing RQ2. The evaluation was defined with two primary objectives: 1) to verify whether variables of low relevance are attributed minimal significance, even when they are highly correlated with relevant variables, and 2) to ascertain if the proposed metrics can effectively isolate the effects of relevant variables that are also correlated with each other.
 
-To systematically achieve these objectives, the evaluation process was structured into two phases. First, synthetic data was simulated with the desired dependencies of the features and a qualitative comparison is then carried out to examine how various methods emphasize variables in different scenarios. Following this, evaluation metrics are introduced for a quantitative analysis. Using simulated data allows for a more precise demonstration of the metrics' behavior than analyzing a real dataset, where additional interdependencies among features might skew the results. Although it is not possible to ensure that the fitted model will recover exactly the simulated data-generating process, it is expected to come close by keeping the setup simple and focusing on a small set of variables. Additionally, the same model will be explained for different techniques, which will allow a clear comparison of differences in the technique's behavior even if the models fit data differently from the expected.
+To systematically achieve these objectives, the evaluation process was structured into two phases. First, synthetic data was simulated with the desired dependencies of the features and a qualitative comparison is then carried out to examine how various methods emphasize variables in different scenarios. Following this, evaluation metrics are introduced for a quantitative analysis. Using simulated data allows for a more precise demonstration of the metrics' behavior than analyzing a real dataset, where additional interdependencies among features might skew the results. Although it is not possible to ensure that the fitted model will recover exactly the simulated data-generating process, it is expected to come close by keeping the setup simple and focusing on a small set of variables. Additionally, the same model will be explained for different techniques, which will allow a comparison of differences in the technique's behavior even if the models fit data differently from the expected.
 
 In the second phase, the proposed metrics are evaluated using two publicly accessible real-world data sets from the medical and educational domains. The first data set exhibits high interdependence among features with numerous variable pairs demonstrating a Pearson correlation coefficient exceeding 0.8. The second data set pertains to the educational domain, which is the primary focus of this thesis. For this dataset, domain-specific knowledge is leveraged to elucidate disparities between highlighted feature contributions. 
 
@@ -11,7 +11,7 @@ The baseline metrics employed for comparison include  \gls{MDI} from tree-based 
 
 In addressing the constraints associated with \gls{MDI} and TreeSHAP, which are solely applicable to tree-based algorithms, the \gls{RF} algorithm was chosen. The RF is prevalent in \gls{EDM}\cite{Martinez-Abad2020EducationalAssessment} and has also demonstrated optimal performance in many tasks using tabular data \cite{Grinsztajn2022WhyData}. The \gls{ALE}-based score \gls{AUA} was chosen for qualitative benchmarking, as it offers a more intuitive measure and aligns closely with the interpretation needs of educational practitioners interested in the main effects of variables on predictions. For the quantitative analysis, the normalized \gls{AAR} was employed due to its stronger adherence to other ranking-based techniques. Regarding \gls{SHAP}, the common average was utilized in the qualitative analysis, and the absolute average \gls{SHAP} for the quantitative analysis.    
 
-\subsection{Evaluation Metrics}
+\subsection{Evaluation metrics}
 
 To address RQ2, the primary objective is to define metrics that can isolate the effects of individual variables in dependent data. It is essential to ensure that irrelevant variables are not inaccurately considered important due to their correlation with significant variables. For this purpose, the metric \textit{PropTrueVar} is introduced. It calculates the proportion of the total relevance attributed to all variables that is assigned to the irrelevant variables. Technically \textit{PropTrueVar} is defined by:
 
@@ -22,7 +22,7 @@ PropTrueVar = 1 - \frac{\text{score\_important\_variable}}{\sum(\text{all\_score
 \end{equation}
 
 
-Additionally, not separating the effects of different features can lead to incorrect conclusions as it cannot be possible to identify from which variable the effects come, particularly when several correlated variables similarly affect the target variable. To assess such cases, the \textit{EquiTrueVars} metric is defined. It measures the fairness in attributing importance to correlated variables that are equally relevant to the target variable. Technically \textit{EquiTrueVars} is defined by:
+Additionally, not separating the effects of different features can lead to incorrect conclusions as it cannot be possible to identify from which variable the effects come, particularly when several correlated variables similarly affect the target variable. To assess such cases, the \textit{EquiTrueVars} metric is defined. It measures the fairness in attributing importance to correlated variables that are theoretically equally relevant to the target variable. Fairness is quantified by the standard deviation (\sigma\) of the attributed scores for the important variables. Low \(sigma\) values indicate that the explanation correctly assigned similar relevance to the equally important variables, while high values suggest a lack of fairness in importance attribution. The \textit{EquiTrueVars} is defined as follows:
 
 \begin{equation}
 \label{eq:lm+inter}
@@ -30,7 +30,7 @@ EquiTrueVars = 1 - \sigma(\text{score\_important\_variables)}
 \end{equation}
 
 
-Lastly, the 'EquiPropTrueVars' metric is introduced to measure both aspects. It evaluates the combined property by first assessing the attribution given to important variables (using \textit{EquiTrueVars}) and then penalizing methods that tend to overemphasize irrelevant variables (based on \textit{PropTrueVar}).
+Lastly, the \textit{EquiPropTrueVars} metric is introduced to measure both aspects. It evaluates the combined property by first assessing the attribution given to important variables (using \textit{EquiTrueVars}) and then penalizing methods that tend to overemphasize irrelevant variables (based on \textit{PropTrueVar}).
 
 \begin{equation}
 \label{eq:lm+inter}
@@ -44,7 +44,9 @@ Feature selection stands as a critical aspect of \gls{ML}, garnering increased f
 
 Given that an exhaustive comparison of feature selection methods falls outside the scope of this thesis, for the sake of simplicity, this study will narrow its focus to \gls{EDM} and \gls{MDI} from tree-based models, particularly due to \gls{MDI}'s widespread application in feature selection tasks. Additionally, evaluating the method's impact on the performance and complexity of RF models introduces some bias in favor of \gls{MDI}. This inherent bias arises because \gls{MDI} is computed as part of the training process of the Random Forest model, which is also used to fit the data. Therefore, if \gls{AAR} demonstrates comparable performance to \gls{MDI} in this context, it would be a substantial indication of \gls{AAR}'s effectiveness as a feature selection tool. The \gls{MDI} was extracted from the RandomForest model of the Sci-kit learn library \footnote{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}. 
 
-The initial experiment utilizes another open-source UCI educational dataset \cite{RealinhoValentim2021PredictSuccess} with 36 independent variables to illustrate the divergent approaches of \gls{MDI} and \gls{AAR} in feature reduction. Initially, irrelevant variables (close to zero, "\(< 0.0001\)") are excluded to evaluate model performance. Subsequently, the model's efficacy is evaluated using the top 10 features as identified by both \gls{MDI} and \gls{AAR} metrics. These metrics are derived from the same RF algorithm applied to a subset (30\%) of the dataset, while the remaining portion (70\%) is used to assess model performance in predicting student dropout (enrolled or graduated). The \gls{AAR} and \gls{MDI} values were normalized such that their sum equals one. This normalization ensures a standard scale for comparison. 
+The initial experiment utilizes another open-source UCI dataset, specifically an educational dataset \cite{Realinho2022PredictingSuccess} containing 36 independent variables. This experiment highlights the divergences between the \gls{MDI} and \gls{AAR} methods in their potential for feature reduction. 
+
+Initially, irrelevant variables (close to zero, "\(< 0.0001\)") are excluded to evaluate model performance. Subsequently, the model's efficacy is evaluated using the top 10 features as identified by both \gls{MDI} and \gls{AAR} metrics. These metrics are derived from the same RF algorithm applied to a subset (30\%) of the dataset, while the remaining portion (70\%) is used to assess model performance in predicting student dropout (enrolled or graduated). The \gls{AAR} and \gls{MDI} values were normalized such that their sum equals one. This normalization ensures a standard scale for comparison. 
 
 To illustrate feature selection in high-dimensional settings when the number of features is large (\(p\)) relative to the number of observations (\(n\)), this study used two datasets from OpenML \cite{Vanschoren2014OpenML}. Specifically, dataset id=312 with \(n\)=2407 and \(p\) = 299 and dataset id=1485 with \(n\)= 2600, \(p\)= 500), both previously employed in feature selection research. Here, varying thresholds of feature irrelevance are analyzed concerning both model complexity (number of features) and performance.
 
@@ -52,7 +54,7 @@ To illustrate feature selection in high-dimensional settings when the number of 
 \input{chapters/4-score-based_ALE/subsecoes/realWorldData}
 
 
-\subsection{Experimental Setup}
+\subsection{Experimental setup}
 
 In the first phase of the experiments, which involved synthetic data,  regression and classification functions from Scenarios 1 to 3 were tested and evaluated qualitatively. For the classification, all \(Y>0\) was set to 1, otherwise 0. From Scenarios 4 to 6 the entire dataset was used for model fitting, and the defined evaluation metrics were extracted across the same 30-Monte Carlo replicates. 
 

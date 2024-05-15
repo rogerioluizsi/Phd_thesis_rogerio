@@ -2,13 +2,13 @@
 
 Supervised learning is a subfield of \gls{ML} in which a model is trained on a labeled dataset to perform predictive tasks in a unseen dataset. The objective is to find a function \( f: X \rightarrow Y \), where \( X \) is the feature space and \(Y\) is the output space, such that the function approximates the underlying mapping from input features to outputs as closely as possible.
 
-Specifically, given a labeled dataset \(D = {(x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n)} \), where \( x_i \in X \) and \( y_i \in Y \), the supervised learning algorithm aims to minimize a loss function \( L(f(x), y) \) over \( D\), defined as:
+Specifically, given a labeled dataset \(D = {(x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n)} \), where \( x_i \in X \) and \( y_i \in Y \), the supervised learning algorithm aims to minimize a loss function \( L(f(X), Y) \) over \( D\), defined as:
 
 \[
 L(f) = \sum_{i=1}^{n} L(f(x_i), y_i)
 \]
 
-Where, \(L\) measures the discrepancy between the predicted output \( f(x) \) and the true label \( y \). To enhance the model's generalization capabilities, $f$ is evaluated on an statistically independent dataset, thereby mitigating the risk of optimistic empirical performance estimation.
+Where, \(L\) measures the discrepancy between the predicted output \( f(x_i) \) and the true label \( y_i \). To enhance the model's generalization capabilities, $f$ is evaluated on an statistically independent dataset, thereby mitigating the risk of optimistic empirical performance estimation.
 
 \subsection{Contrast with traditional statistical methods}
 
